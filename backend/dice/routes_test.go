@@ -27,7 +27,7 @@ func TestDiceRoutes(t *testing.T) {
 	})
 
 	t.Run("Roll Invalid Request", func(t *testing.T) {
-		invalidRequest := `{"sides": 20, "advantage": true, "disadvantage": true}`
+		invalidRequest := `{"difficulty": 20, "advantage": true, "disadvantage": true}`
 		req, _ := http.NewRequest(http.MethodPost, "/roll", strings.NewReader(invalidRequest))
 		req.Header.Set("Content-Type", "application/json")
 		w := httptest.NewRecorder()
@@ -38,7 +38,7 @@ func TestDiceRoutes(t *testing.T) {
 	})
 
 	t.Run("Roll valid Request", func(t *testing.T) {
-		invalidRequest := `{"sides": 20, "advantage": true}`
+		invalidRequest := `{"difficulty": 20, "advantage": true}`
 		req, _ := http.NewRequest(http.MethodPost, "/roll", strings.NewReader(invalidRequest))
 		req.Header.Set("Content-Type", "application/json")
 		w := httptest.NewRecorder()

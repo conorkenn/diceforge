@@ -11,7 +11,7 @@ import (
 )
 
 type Dice struct {
-	Sides        int      `json:"sides"`
+	Difficulty   int      `json:"difficulty"`
 	Advantage    bool     `json:"advantage,omitempty"`
 	Disadvantage bool     `json:"disadvantage,omitempty"`
 	Modifiers    []string `json:"modifiers,omitempty"`
@@ -19,6 +19,7 @@ type Dice struct {
 
 func Roll(c *gin.Context) {
 	var newDice Dice
+	succeeded := false
 	var r = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	if err := c.BindJSON(&newDice); err != nil {
@@ -30,31 +31,34 @@ func Roll(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't have both advantage and disadvantage"})
 	}
 
-	result := r.Intn(newDice.Sides) + 1
+	rollResult := r.Intn(20) + 1
 
 	if newDice.Advantage {
-		result = max(result, r.Intn(newDice.Sides)+1)
+		rollResult = max(rollResult, r.Intn(20)+1)
 	}
 	if newDice.Disadvantage {
-		result = min(result, r.Intn(newDice.Sides)+1)
+		rollResult = min(rollResult, r.Intn(20)+1)
 	}
 	message := "Successfully rolled dice"
 
-	if result == newDice.Sides {
+	if rollResult == 20 {
 		message = "Critical Success"
 	}
 
-	if result == 1 {
+	if rollResult == 1 {
 		message = "Critical Failure"
 	}
 
 	if len(newDice.Modifiers) > 0 {
-		result = applyModifiers(result, newDice.Modifiers)
+		rollResult = applyModifiers(rollResult, newDice.Modifiers)
 	}
-
+	if rollResult >= newDice.Difficulty || message == "Critical Success" {
+		succeeded = true
+	}
 	c.JSON(http.StatusOK, gin.H{
-		"result":  result,
-		"message": message,
+		"result":    rollResult,
+		"succeeded": succeeded,
+		"message":   message,
 	})
 }
 

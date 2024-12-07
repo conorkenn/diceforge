@@ -3,7 +3,7 @@ import { rollDice, RollResponse } from "../api/diceApi";
 import RollHistory from "./RollHistory";
 
 const DiceRoller: React.FC = () => {
-    const [sides, setSides] = useState(20)
+    const [difficulty, setDifficulty] = useState(20)
     const [result, setResult] = useState<RollResponse | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [history, setHistory] = useState<number[]>([]); 
@@ -11,7 +11,7 @@ const DiceRoller: React.FC = () => {
 
     const handleRoll = async () => {
         try{
-            const rollResult = await rollDice({sides})
+            const rollResult = await rollDice({difficulty})
             setResult(rollResult)
             setHistory(prevHistory => [...prevHistory, rollResult.result]);
         }  catch (err){
@@ -19,16 +19,23 @@ const DiceRoller: React.FC = () => {
         }
     };
 
+    const calculateChance = (difficulty: number) => {
+        if (difficulty > 20) return 5;
+        const chance = ((21 - difficulty) / 20) * 100;
+        return chance.toFixed(2);
+    }
+
 
     return(
         <div>
             <h3>dice</h3>
             <div>
+                <p>{calculateChance(difficulty)}%</p>
                 <label>
-                    num sides:
+                    Difficulty:
                     <input type="number"
-                    value={sides}
-                    onChange={(e) => setSides(Number(e.target.value))}
+                    value={difficulty}
+                    onChange={(e) => setDifficulty(Number(e.target.value))}
                     min="2"
                     />
                 </label>
@@ -41,6 +48,7 @@ const DiceRoller: React.FC = () => {
                     <h2>result</h2>
                     <p>{result.message}</p>
                     <p>{result.result}</p>
+                    <p>{result.succeeded.toString()}</p>
                 </div>
             )}
 

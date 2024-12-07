@@ -1,10 +1,11 @@
 export interface RollResponse {
     message: string
+    succeeded: boolean
     result: number
 }
 
 export interface RollRequest {
-    sides: number
+    difficulty: number
     advantage?: boolean
     disadvantage?: boolean
     modifiers?: string[]
