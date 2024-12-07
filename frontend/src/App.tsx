@@ -1,10 +1,15 @@
 import React from 'react';
 import './App.css';
 import DiceRoller from './components/DiceRollerComponent';
+import NavbarComponent from './components/NavbarComponent';
 
 function App() {
   return (
-    <DiceRoller />
+    <div>
+      <NavbarComponent />
+      <DiceRoller />
+    </div>
+
   );
 }
 
