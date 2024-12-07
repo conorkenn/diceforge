@@ -1,0 +1,11 @@
+# Node.js
+/frontend/node_modules/
+/frontend/build/
+
+# Go
+/backend/bin/
+/backend/pkg/
+/backend/.env
+
+
+*.env
