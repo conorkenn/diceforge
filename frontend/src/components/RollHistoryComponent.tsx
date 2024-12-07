@@ -21,9 +21,8 @@ const RollHistoryComponent: React.FC<RollHistoryProps> = ({history}) =>{
     const { successes, failures, successPercentage, failurePercentage } = calculatePercentages(history);
     return (
         <div>
-            <h4>Successed: {successes} {successPercentage.toFixed(2)}%</h4>
-            <h4>Failured {failures} : {failurePercentage.toFixed(2)}%</h4>
-            <div>history</div>
+            <h4>Succeded: {successes} {isNaN(successPercentage) ? null : successPercentage.toFixed(2)}%</h4>
+            <h4>Failed {failures} : {isNaN(failurePercentage) ? null : failurePercentage.toFixed(2)}%</h4>
             {history.length > 0 ? (
                 <ul>
                     {history.map((roll) => (
