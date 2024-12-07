@@ -17,11 +17,15 @@ const DiceRoller: React.FC = () => {
                 return rollResult
             })
             const results = await Promise.all(rollPromises)
-            setHistory(results)
+            setHistory((prevHistory) => [...prevHistory, ...results]);
         }  catch (err){
             setError("failed to roll")
         }
     };
+
+    const handleReset = () => {
+        setHistory([])
+    }
 
     const calculateChance = (difficulty: number) => {
         if (difficulty > 20) return 5;
@@ -54,7 +58,10 @@ const DiceRoller: React.FC = () => {
                 <button onClick={handleRoll}>Roll Dice</button>
             </div>
             <RollHistoryComponent history ={history}/>
+            <button onClick={handleReset}>Reset</button>
         </div>
+
+       
     );
 }
 

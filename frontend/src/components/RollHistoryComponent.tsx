@@ -14,16 +14,15 @@ const calculatePercentages = (history: RollHistory[]) => {
     const successPercentage = (successes / totalRolls) * 100
     const failurePercentage = (failures / totalRolls) * 100
 
-    return {successPercentage, failurePercentage}
+    return {successes, failures, successPercentage, failurePercentage}
 }
+
 const RollHistoryComponent: React.FC<RollHistoryProps> = ({history}) =>{
-
-    const { successPercentage, failurePercentage } = calculatePercentages(history);
-
+    const { successes, failures, successPercentage, failurePercentage } = calculatePercentages(history);
     return (
         <div>
-            <h4>Success Rate: {successPercentage.toFixed(2)}%</h4>
-            <h4>Failure Rate: {failurePercentage.toFixed(2)}%</h4>
+            <h4>Successed: {successes} {successPercentage.toFixed(2)}%</h4>
+            <h4>Failured {failures} : {failurePercentage.toFixed(2)}%</h4>
             <div>history</div>
             {history.length > 0 ? (
                 <ul>
