@@ -12,7 +12,7 @@ func main() {
 	// Enable CORS
 	router.Use(cors.Default())
 
-	router.POST("/roll", dice.Roll)
+	dice.DiceRoutes(router)
 
 	router.Run(":8080")
 }
