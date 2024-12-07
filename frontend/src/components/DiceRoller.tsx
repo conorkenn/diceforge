@@ -1,15 +1,19 @@
 import React, {useState} from "react";
 import { rollDice, RollResponse } from "../api/diceApi";
+import RollHistory from "./RollHistory";
 
 const DiceRoller: React.FC = () => {
-    const [sides, setSides] = useState(6)
+    const [sides, setSides] = useState(20)
     const [result, setResult] = useState<RollResponse | null>(null)
     const [error, setError] = useState<string | null>(null)
+    const [history, setHistory] = useState<number[]>([]); 
+
 
     const handleRoll = async () => {
         try{
             const rollResult = await rollDice({sides})
             setResult(rollResult)
+            setHistory(prevHistory => [...prevHistory, rollResult.result]);
         }  catch (err){
             setError("failed to roll")
         }
@@ -39,6 +43,8 @@ const DiceRoller: React.FC = () => {
                     <p>{result.result}</p>
                 </div>
             )}
+
+            <RollHistory history ={history}/>
         </div>
     );
 }
