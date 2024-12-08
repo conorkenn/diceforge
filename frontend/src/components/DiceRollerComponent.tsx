@@ -4,6 +4,7 @@ import RollHistoryComponent from "./RollHistoryComponent";
 import { RollHistory } from "../types";
 import NumRollsSelector from "./NumRollsSelector";
 import RollTypeSelector from "./RollTypeSelector";
+import DifficultySelector from "./DifficultySelector";
 
 const DiceRoller: React.FC = () => {
   const [difficulty, setDifficulty] = useState(12);
@@ -55,16 +56,7 @@ const DiceRoller: React.FC = () => {
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div>
         <h1>{calculateChance(difficulty, rollType)}%</h1>
-        <h2>Difficulty Class</h2>
-        <label>
-          <input
-            type="number"
-            value={difficulty}
-            onChange={(e) => setDifficulty(Number(e.target.value))}
-            min="2"
-            style={{ width: "35px" }} // Resize the input
-          />
-        </label>
+        <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty}/>
         <NumRollsSelector numRolls={numRolls} setNumRolls={setNumRolls} />
         <RollTypeSelector rollType={rollType} setRollType={setRollType} />
         <div style={{ display: "flex", gap: "10px" }}>
