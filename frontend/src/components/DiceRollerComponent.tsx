@@ -4,15 +4,22 @@ import RollHistoryComponent from "./RollHistoryComponent";
 import { RollHistory } from "../types";
 
 const DiceRoller: React.FC = () => {
-  const [difficulty, setDifficulty] = useState(20);
+  const [difficulty, setDifficulty] = useState(12);
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<RollHistory[]>([]);
   const [numRolls, setNumRolls] = useState<number>(1);
+  const [rollType, setRollType] = useState<string>("none");
 
   const handleRoll = async () => {
     try {
+      const advantage = rollType === "advantage";
+      const disadvantage = rollType === "disadvantage";
       const rollPromises = Array.from({ length: numRolls }, async () => {
-        const rollResult = await rollDice({ difficulty });
+        const rollResult = await rollDice({
+          difficulty,
+          advantage,
+          disadvantage,
+        });
         return rollResult;
       });
       const results = await Promise.all(rollPromises);
@@ -26,16 +33,27 @@ const DiceRoller: React.FC = () => {
     setHistory([]);
   };
 
-  const calculateChance = (difficulty: number) => {
-    if (difficulty > 20) return 5;
-    const chance = ((21 - difficulty) / 20) * 100;
-    return chance.toFixed(2);
+  const calculateChance = (difficulty: number, rollType: string) => {
+    if (difficulty > 20) difficulty = 20;
+
+    const baseChance = (21 - difficulty) / 20;
+
+    if (rollType === 'advantage') {
+        const advantageChance = 1 - Math.pow((difficulty - 1) / 20, 2);
+        return (advantageChance * 100).toFixed(2);
+    } 
+    else if (rollType === 'disadvantage') {
+        const disadvantageChance = Math.pow((21 - difficulty) / 20, 2);
+        return (disadvantageChance * 100).toFixed(2);
+    }
+
+    return (baseChance * 100).toFixed(2);
   };
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div>
-        <h1>{calculateChance(difficulty)}%</h1>
+        <h1>{calculateChance(difficulty, rollType)}%</h1>
         <h2>Difficulty Class</h2>
         <label>
           <input
@@ -46,47 +64,81 @@ const DiceRoller: React.FC = () => {
             style={{ width: "35px" }} // Resize the input
           />
         </label>
-        <label>
-          Num rolls:
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <label>
-              <input
-                type="radio"
-                value={1}
-                checked={numRolls === 1}
-                onChange={() => setNumRolls(1)}
-              />
-              1
-            </label>
-            <label>
-              <input
-                type="radio"
-                value={10}
-                checked={numRolls === 10}
-                onChange={() => setNumRolls(10)}
-              />
-              10
-            </label>
-            <label>
-              <input
-                type="radio"
-                value={100}
-                checked={numRolls === 100}
-                onChange={() => setNumRolls(100)}
-              />
-              100
-            </label>
-            <label>
-              <input
-                type="radio"
-                value={1000}
-                checked={numRolls === 1000}
-                onChange={() => setNumRolls(1000)}
-              />
-              1000
-            </label>
-          </div>
-        </label>
+        <div>
+          <label>
+            Num rolls:
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <label>
+                <input
+                  type="radio"
+                  value={1}
+                  checked={numRolls === 1}
+                  onChange={() => setNumRolls(1)}
+                />
+                1
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value={10}
+                  checked={numRolls === 10}
+                  onChange={() => setNumRolls(10)}
+                />
+                10
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value={100}
+                  checked={numRolls === 100}
+                  onChange={() => setNumRolls(100)}
+                />
+                100
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value={1000}
+                  checked={numRolls === 1000}
+                  onChange={() => setNumRolls(1000)}
+                />
+                1000
+              </label>
+            </div>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="rollType"
+              value="advantage"
+              checked={rollType === "advantage"}
+              onChange={() => setRollType("advantage")}
+            />
+            Advantage
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="rollType"
+              value="none"
+              checked={rollType === "none"}
+              onChange={() => setRollType("none")}
+            />
+            Neither
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="rollType"
+              value="disadvantage"
+              checked={rollType === "disadvantage"}
+              onChange={() => setRollType("disadvantage")}
+            />
+            Disadvantage
+          </label>
+        </div>
         <div style={{ display: "flex", gap: "10px" }}>
           <button onClick={handleRoll}>Roll Dice</button>
           <button onClick={handleReset}>Reset</button>
