@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { rollDice } from "../api/diceApi";
 import RollHistoryComponent from "./RollHistoryComponent";
 import { RollHistory } from "../types";
+import '../App.css';
+import NumRollsSelector from "./NumRollsSelector";
 
 const DiceRoller: React.FC = () => {
   const [difficulty, setDifficulty] = useState(12);
@@ -64,49 +66,7 @@ const DiceRoller: React.FC = () => {
             style={{ width: "35px" }} // Resize the input
           />
         </label>
-        <div>
-          <label>
-            Num rolls:
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <label>
-                <input
-                  type="radio"
-                  value={1}
-                  checked={numRolls === 1}
-                  onChange={() => setNumRolls(1)}
-                />
-                1
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value={10}
-                  checked={numRolls === 10}
-                  onChange={() => setNumRolls(10)}
-                />
-                10
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value={100}
-                  checked={numRolls === 100}
-                  onChange={() => setNumRolls(100)}
-                />
-                100
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value={1000}
-                  checked={numRolls === 1000}
-                  onChange={() => setNumRolls(1000)}
-                />
-                1000
-              </label>
-            </div>
-          </label>
-        </div>
+        <NumRollsSelector numRolls={numRolls} setNumRolls={setNumRolls}/>
         <div>
           <label>
             <input
