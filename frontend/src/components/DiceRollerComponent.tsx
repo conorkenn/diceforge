@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { rollDice } from "../api/diceApi";
 import RollHistoryComponent from "./RollHistoryComponent";
 import { RollHistory } from "../types";
-import NumRollsSelector from "./NumRollsSelector";
+import NumRollsSelector from "./NumRollsSelector/NumRollsSelector";
 import RollTypeSelector from "./RollTypeSelector";
 import DifficultySelector from "./DifficultySelector";
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import './NumRollsSelector.css';
 
 interface NumRollsSelectorProps {
     numRolls: number
@@ -11,8 +12,8 @@ const NumRollsSelector: React.FC<NumRollsSelectorProps> = ({numRolls, setNumRoll
         <div>
           <label>
             Num rolls:
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <label>
+            <div className='radio-group'>
+              <label className={`radio-label ${numRolls === 1 ? 'active': ''}`}>
                 <input
                   type="radio"
                   value={1}
@@ -21,7 +22,7 @@ const NumRollsSelector: React.FC<NumRollsSelectorProps> = ({numRolls, setNumRoll
                 />
                 1
               </label>
-              <label>
+              <label className={`radio-label ${numRolls === 10 ? 'active': ''}`}>
                 <input
                   type="radio"
                   value={10}
@@ -30,7 +31,7 @@ const NumRollsSelector: React.FC<NumRollsSelectorProps> = ({numRolls, setNumRoll
                 />
                 10
               </label>
-              <label>
+              <label className={`radio-label ${numRolls === 100 ? 'active': ''}`}>
                 <input
                   type="radio"
                   value={100}
@@ -39,7 +40,7 @@ const NumRollsSelector: React.FC<NumRollsSelectorProps> = ({numRolls, setNumRoll
                 />
                 100
               </label>
-              <label>
+              <label className={`radio-label ${numRolls === 1000 ? 'active': ''}`}>
                 <input
                   type="radio"
                   value={1000}
