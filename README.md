@@ -1,7 +1,11 @@
 
 <img src="assets\logo.webp" width="200">
 
-Usage 
+
+### WIP 
+<img src="assets\wip_12_9.png">
+
+API Usage 
 ```
 $  curl -X POST http://localhost:8080/roll -H "Content-Type: application/json" -d '{"sides":20}'
 {"message":"Critical Success","result":20}
