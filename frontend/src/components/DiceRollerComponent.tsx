@@ -3,7 +3,7 @@ import { rollDice } from "../api/diceApi";
 import RollHistoryComponent from "./RollHistoryComponent";
 import { RollHistory } from "../types";
 import NumRollsSelector from "./NumRollsSelector/NumRollsSelector";
-import RollTypeSelector from "./RollTypeSelector";
+import RollTypeSelector from "./RollTypeSelector/RollTypeSelector";
 import DifficultySelector from "./DifficultySelector";
 
 const DiceRoller: React.FC = () => {

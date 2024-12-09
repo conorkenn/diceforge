@@ -1,0 +1,70 @@
+.advantage-radio-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.advantage-label,
+.no-advantage-label,
+.disadvantage-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.advantage-label input,
+.disadvantage-label input,
+.no-advantage-label input {
+  display: none;
+}
+
+.triangle-up,
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  margin-right: 8px;
+}
+
+.triangle-up {
+  border-bottom: 15px solid #cccccc;
+}
+
+.triangle-down {
+  border-top: 15px solid #cccccc;
+}
+
+.advantage-label.active .triangle-up {
+  border-bottom-color: green;
+}
+
+.disadvantage-label.active .triangle-down {
+  border-top-color: red;
+}
+
+.advantage-label:hover .triangle-up,
+.disadvantage-label:hover .triangle-down {
+  opacity: 0.8;
+}
+
+.square {
+  width: 15px;
+  height: 15px;
+  border: 2px solid #cccccc;
+  background-color: #cccccc;
+  margin-right: 8px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.no-advantage-label.active .square {
+  background-color: black;
+  border-color: black;
+}
+
+.no-advantage-label:hover .square {
+  opacity: 0.8;
+}
