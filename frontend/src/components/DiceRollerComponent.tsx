@@ -5,6 +5,7 @@ import { RollHistory } from "../types";
 import NumRollsSelector from "./NumRollsSelector/NumRollsSelector";
 import RollTypeSelector from "./RollTypeSelector/RollTypeSelector";
 import DifficultySelector from "./DifficultySelector";
+import ModifierModal from "./ModifierModal";
 
 const DiceRoller: React.FC = () => {
   const [difficulty, setDifficulty] = useState(12);
@@ -12,6 +13,17 @@ const DiceRoller: React.FC = () => {
   const [history, setHistory] = useState<RollHistory[]>([]);
   const [numRolls, setNumRolls] = useState<number>(1);
   const [rollType, setRollType] = useState<string>("none");
+  const [modifiers, setModifiers] = useState<string[]>([]) 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleRoll = async () => {
     try {
@@ -22,6 +34,7 @@ const DiceRoller: React.FC = () => {
           difficulty,
           advantage,
           disadvantage,
+          modifiers
         });
         return rollResult;
       });
@@ -63,6 +76,15 @@ const DiceRoller: React.FC = () => {
           <button onClick={handleRoll}>Roll Dice</button>
           <button onClick={handleReset}>Reset</button>
         </div>
+        <button onClick={openModal}>Modifiers</button>
+        {isModalOpen && (
+          <ModifierModal 
+          modifiers={modifiers} 
+          setModifiers={setModifiers} 
+          closeModal={closeModal} 
+        />
+        )}
+        {modifiers}
       </div>
       <div style={{ flex: 1, marginLeft: "20px" }}>
         <RollHistoryComponent history={history} />
