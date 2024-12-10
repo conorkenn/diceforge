@@ -69,6 +69,8 @@ func applyModifiers(result int, modifiers []string) int {
 			if len(parts) != 2 {
 				continue
 			}
+			isNegative := strings.HasPrefix(parts[0], "-")
+
 			diceCount, err := strconv.Atoi(parts[0])
 			if err != nil {
 				continue // invalid number
@@ -78,8 +80,13 @@ func applyModifiers(result int, modifiers []string) int {
 				continue // invalid number
 			}
 
-			for i := 0; i < diceCount; i++ {
-				result += rand.Intn(diceSides) + 1
+			for i := 0; i < abs(diceCount); i++ {
+				roll := rand.Intn(diceSides) + 1
+				if isNegative {
+					result -= roll
+				} else {
+					result += roll
+				}
 			}
 		} else {
 			modifierInt, err := strconv.Atoi(modifier)
@@ -92,4 +99,11 @@ func applyModifiers(result int, modifiers []string) int {
 	}
 
 	return result
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }
