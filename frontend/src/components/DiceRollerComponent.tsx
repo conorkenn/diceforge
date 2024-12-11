@@ -13,9 +13,8 @@ const DiceRoller: React.FC = () => {
   const [history, setHistory] = useState<RollHistory[]>([]);
   const [numRolls, setNumRolls] = useState<number>(1);
   const [rollType, setRollType] = useState<string>("none");
-  const [modifiers, setModifiers] = useState<string[]>([]) 
+  const [modifiers, setModifiers] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -34,7 +33,7 @@ const DiceRoller: React.FC = () => {
           difficulty,
           advantage,
           disadvantage,
-          modifiers
+          modifiers,
         });
         return rollResult;
       });
@@ -65,11 +64,51 @@ const DiceRoller: React.FC = () => {
     return (baseChance * 100).toFixed(2);
   };
 
+  const calculateModifierTotal = (modifiers: string[]) => {
+    let staticModifier = 0;
+    let minRollModifier = 0;
+    let maxRollModifier = 0;
+    modifiers.forEach((mod) => {
+      if (mod.includes("d")) {
+        const parts = mod.split("d");
+        const diceCount = Math.abs(Number(parts[0]));
+        const diceSides = Number(parts[1]);
+        const isNegative = mod.startsWith("-");
+
+        const diceMin = isNegative ? -1 : 1;
+        const diceMax = isNegative
+          ? -diceCount * diceSides
+          : diceCount * diceSides;
+
+        minRollModifier += diceMin;
+        maxRollModifier += diceMax;
+      } else {
+        staticModifier += Number(mod);
+      }
+    });
+
+    const minTotal = staticModifier + minRollModifier;
+    const maxTotal = staticModifier + maxRollModifier;
+    const displayMin = Math.min(minTotal, maxTotal);
+    const displayMax = Math.max(minTotal, maxTotal);
+    //return { minTotal, maxTotal };
+    return (
+      <div>
+        <p>
+          Modifier Range: {displayMin} - {displayMax}
+        </p>
+      </div>
+    )
+  };
+
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div>
         <h1>{calculateChance(difficulty, rollType)}%</h1>
-        <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty}/>
+        <DifficultySelector
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+        />
         <NumRollsSelector numRolls={numRolls} setNumRolls={setNumRolls} />
         <RollTypeSelector rollType={rollType} setRollType={setRollType} />
         <div style={{ display: "flex", gap: "10px" }}>
@@ -78,13 +117,13 @@ const DiceRoller: React.FC = () => {
         </div>
         <button onClick={openModal}>Modifiers</button>
         {isModalOpen && (
-          <ModifierModal 
-          modifiers={modifiers} 
-          setModifiers={setModifiers} 
-          closeModal={closeModal} 
-        />
+          <ModifierModal
+            modifiers={modifiers}
+            setModifiers={setModifiers}
+            closeModal={closeModal}
+          />
         )}
-        {modifiers}
+        {calculateModifierTotal(modifiers)}
       </div>
       <div style={{ flex: 1, marginLeft: "20px" }}>
         <RollHistoryComponent history={history} />
