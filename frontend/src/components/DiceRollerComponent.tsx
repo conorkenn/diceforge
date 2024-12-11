@@ -48,20 +48,39 @@ const DiceRoller: React.FC = () => {
     setHistory([]);
   };
 
-  const calculateChance = (difficulty: number, rollType: string) => {
+  const calculateChance = (
+    difficulty: number,
+    rollType: string,
+    modifiers: string[]
+  ) => {
+    const { minTotal, maxTotal } = calculateModifierTotal(modifiers);
+
     if (difficulty > 20) difficulty = 20;
 
-    const baseChance = (21 - difficulty) / 20;
+    const minDifficulty = Math.max(1, difficulty - maxTotal);
+    const maxDifficulty = Math.max(1, difficulty - minTotal);
+
+    const baseChanceMin = (21 - minDifficulty) / 20;
+    const baseChanceMax = (21 - maxDifficulty) / 20;
+
+    let resultChanceMin, resultChanceMax;
 
     if (rollType === "advantage") {
-      const advantageChance = 1 - Math.pow((difficulty - 1) / 20, 2);
-      return (advantageChance * 100).toFixed(2);
+      const advantageChanceMin = 1 - Math.pow((minDifficulty - 1) / 20, 2);
+      const advantageChanceMax = 1 - Math.pow((maxDifficulty - 1) / 20, 2);
+      resultChanceMin = advantageChanceMin;
+      resultChanceMax = advantageChanceMax;
     } else if (rollType === "disadvantage") {
-      const disadvantageChance = Math.pow((21 - difficulty) / 20, 2);
-      return (disadvantageChance * 100).toFixed(2);
+      const disadvantageChanceMin = Math.pow((21 - minDifficulty) / 20, 2);
+      const disadvantageChanceMax = Math.pow((21 - maxDifficulty) / 20, 2);
+      resultChanceMin = disadvantageChanceMin;
+      resultChanceMax = disadvantageChanceMax;
+    } else {
+      resultChanceMin = baseChanceMin;
+      resultChanceMax = baseChanceMax;
     }
 
-    return (baseChance * 100).toFixed(2);
+    return ((resultChanceMin + resultChanceMax) / 2) * 100;
   };
 
   const calculateModifierTotal = (modifiers: string[]) => {
@@ -89,22 +108,30 @@ const DiceRoller: React.FC = () => {
 
     const minTotal = staticModifier + minRollModifier;
     const maxTotal = staticModifier + maxRollModifier;
+
+    return { minTotal, maxTotal };
+  };
+
+  const displayModifierTotal = (
+    minTotal: number,
+    maxTotal: number
+  ): JSX.Element => {
     const displayMin = Math.min(minTotal, maxTotal);
     const displayMax = Math.max(minTotal, maxTotal);
-    //return { minTotal, maxTotal };
+
     return (
       <div>
         <p>
           Modifier Range: {displayMin} - {displayMax}
         </p>
       </div>
-    )
+    );
   };
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div>
-        <h1>{calculateChance(difficulty, rollType)}%</h1>
+        <h1>{calculateChance(difficulty, rollType, modifiers)}%</h1>
         <DifficultySelector
           difficulty={difficulty}
           setDifficulty={setDifficulty}
@@ -123,7 +150,11 @@ const DiceRoller: React.FC = () => {
             closeModal={closeModal}
           />
         )}
-        {calculateModifierTotal(modifiers)}
+        {(() => {
+          const { minTotal, maxTotal } = calculateModifierTotal(modifiers);
+
+          return displayModifierTotal(minTotal, maxTotal);
+        })()}
       </div>
       <div style={{ flex: 1, marginLeft: "20px" }}>
         <RollHistoryComponent history={history} />
