@@ -1,5 +1,6 @@
 import React from "react";
-import { calculateModifierTotal } from "../utils/diceUtils";
+import { calculateModifierTotal } from "../../utils/diceUtils";
+import "./ModiferTotalDisplay.css"
 
 interface ModifierTotalDisplayProps {
   modifiers: string[];
@@ -14,8 +15,17 @@ const displayModifierTotal = (
 
   return (
     <div>
+      Modifier Total
       <p>
-        Modifier Range: {displayMin} - {displayMax}
+        {displayMin === displayMax ? (
+          <span className={displayMax > 0 ? 'positive' : displayMax < 0 ? 'negative' : 'zero'}>{displayMax}</span>
+        ) : (
+          <>
+            <span className={displayMin > 0 ? 'positive' : displayMin < 0 ? 'negative' : 'zero'}>{displayMin}</span>
+            {" - "}
+            <span className={displayMax > 0 ? 'positive' : displayMax < 0 ? 'negative' : 'zero'}>{displayMax}</span>
+          </>
+        )}
       </p>
     </div>
   );
