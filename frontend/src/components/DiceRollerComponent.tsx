@@ -6,7 +6,8 @@ import NumRollsSelector from "./NumRollsSelector/NumRollsSelector";
 import RollTypeSelector from "./RollTypeSelector/RollTypeSelector";
 import DifficultySelector from "./DifficultySelector";
 import ModifierModal from "./ModifierModal";
-import { calculateModifierTotal, calculateChance } from '../utils/diceUtils';
+import { calculateModifierTotal, calculateChance } from "../utils/diceUtils";
+import ModifierTotalDisplay from "./ModiferTotalDisplay";
 
 const DiceRoller: React.FC = () => {
   const [difficulty, setDifficulty] = useState(12);
@@ -87,11 +88,7 @@ const DiceRoller: React.FC = () => {
             closeModal={closeModal}
           />
         )}
-        {(() => {
-          const { minTotal, maxTotal } = calculateModifierTotal(modifiers);
-
-          return displayModifierTotal(minTotal, maxTotal);
-        })()}
+        <ModifierTotalDisplay modifiers={modifiers} />
       </div>
       <div style={{ flex: 1, marginLeft: "20px" }}>
         <RollHistoryComponent history={history} />
