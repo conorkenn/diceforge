@@ -26,6 +26,10 @@ const DiceRoller: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const clearModifers = () =>{
+    setModifiers([])
+  }
+
   const handleRoll = async () => {
     try {
       const advantage = rollType === "advantage";
@@ -80,7 +84,8 @@ const DiceRoller: React.FC = () => {
           <button onClick={handleRoll}>Roll Dice</button>
           <button onClick={handleReset}>Reset</button>
         </div>
-        <button onClick={openModal}>Modifiers</button>
+        <button onClick={openModal}>Add Modifiers</button>
+        <button onClick={clearModifers}>Clear Modifiers</button>
         {isModalOpen && (
           <ModifierModal
             modifiers={modifiers}
