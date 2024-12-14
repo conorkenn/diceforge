@@ -18,7 +18,7 @@ const DifficultySelector: React.FC<DifficultySelectorProps> = ({
           value={difficulty}
           onChange={(e) => setDifficulty(Number(e.target.value))}
           min="2"
-          style={{ width: "35px" }}
+          style={{ fontSize:"20px" ,width: "45px", borderRadius: "10px", borderColor: "green" }}
         />
       </label>
     </div>

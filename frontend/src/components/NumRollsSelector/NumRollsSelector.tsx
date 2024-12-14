@@ -11,7 +11,6 @@ const NumRollsSelector: React.FC<NumRollsSelectorProps> = ({numRolls, setNumRoll
     return(
         <div>
           <label>
-            Num rolls:
             <div className='radio-group'>
               <label className={`radio-label ${numRolls === 1 ? 'active': ''}`}>
                 <input

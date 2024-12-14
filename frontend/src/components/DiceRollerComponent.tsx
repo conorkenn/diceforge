@@ -71,19 +71,18 @@ const DiceRoller: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>
+    <div style={{ display: "flex", justifyContent: "center", width: "100%"  }}>
+      <div style={{ textAlign: "center" }}>
         <h1>{calculateChance(difficulty, rollType, modifiers)}%</h1>
         <DifficultySelector
           difficulty={difficulty}
           setDifficulty={setDifficulty}
         />
-        <NumRollsSelector numRolls={numRolls} setNumRolls={setNumRolls} />
-        <RollTypeSelector rollType={rollType} setRollType={setRollType} />
-        <div style={{ display: "flex", gap: "10px" }}>
-          <button onClick={handleRoll}>Roll Dice</button>
-          <button onClick={handleReset}>Reset</button>
+        <div style={{ display: "flex", alignItems: "center" }}>
         </div>
+        <button onClick={handleRoll}>Roll Dice</button>
+        <RollTypeSelector rollType={rollType} setRollType={setRollType} />
+        <NumRollsSelector numRolls={numRolls} setNumRolls={setNumRolls} />
         <button onClick={openModal}>Add Modifiers</button>
         <button onClick={clearModifers}>Clear Modifiers</button>
         {isModalOpen && (
@@ -97,6 +96,7 @@ const DiceRoller: React.FC = () => {
       </div>
       <div style={{ flex: 1, marginLeft: "20px" }}>
         <RollHistoryComponent history={history} />
+        <button onClick={handleReset}>Reset Rolls</button>
       </div>
     </div>
   );
