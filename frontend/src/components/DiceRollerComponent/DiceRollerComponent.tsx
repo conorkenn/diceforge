@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { rollDice } from "../api/diceApi";
-import RollHistoryComponent from "./RollHistoryComponent";
-import { RollHistory } from "../types";
-import NumRollsSelector from "./NumRollsSelector/NumRollsSelector";
-import RollTypeSelector from "./RollTypeSelector/RollTypeSelector";
-import DifficultySelector from "./DifficultySelector";
-import ModifierModal from "./ModiferModal/ModifierModal";
-import { calculateChance } from "../utils/diceUtils";
-import ModifierTotalDisplay from "./ModifierTotalDisplay/ModiferTotalDisplay";
+import { rollDice } from "../../api/diceApi";
+import RollHistoryComponent from "../RollHistoryComponent";
+import { RollHistory } from "../../types";
+import NumRollsSelector from "../NumRollsSelector/NumRollsSelector";
+import RollTypeSelector from "../RollTypeSelector/RollTypeSelector";
+import DifficultySelector from "../DifficultySelector";
+import ModifierModal from "../ModiferModal/ModifierModal";
+import { calculateChance } from "../../utils/diceUtils";
+import ModifierTotalDisplay from "../ModifierTotalDisplay/ModiferTotalDisplay";
+import "./DiceRollerComponent.css";
 
 const DiceRoller: React.FC = () => {
   const [difficulty, setDifficulty] = useState(12);
@@ -26,9 +27,9 @@ const DiceRoller: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const clearModifers = () =>{
-    setModifiers([])
-  }
+  const clearModifers = () => {
+    setModifiers([]);
+  };
 
   const handleRoll = async () => {
     try {
@@ -71,20 +72,22 @@ const DiceRoller: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", width: "100%"  }}>
+    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <div style={{ textAlign: "center" }}>
         <h1>{calculateChance(difficulty, rollType, modifiers)}%</h1>
         <DifficultySelector
           difficulty={difficulty}
           setDifficulty={setDifficulty}
         />
-        <div style={{ display: "flex", alignItems: "center" }}>
-        </div>
+        <div style={{ display: "flex", alignItems: "center" }}></div>
         <button onClick={handleRoll}>Roll Dice</button>
         <RollTypeSelector rollType={rollType} setRollType={setRollType} />
-        <NumRollsSelector numRolls={numRolls} setNumRolls={setNumRolls} />
-        <button onClick={openModal}>Add Modifiers</button>
-        <button onClick={clearModifers}>Clear Modifiers</button>
+        <button className="green-button" onClick={openModal}>
+          Add Modifiers
+        </button>
+        <button className="red-button" onClick={clearModifers}>
+          Clear Modifiers
+        </button>
         {isModalOpen && (
           <ModifierModal
             modifiers={modifiers}
@@ -94,10 +97,22 @@ const DiceRoller: React.FC = () => {
         )}
         <ModifierTotalDisplay modifiers={modifiers} />
       </div>
-      <div style={{ flex: 1, marginLeft: "20px" }}>
+      <NumRollsSelector numRolls={numRolls} setNumRolls={setNumRolls} />
+      <div
+        style={{
+          flex: 1,
+          marginLeft: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <RollHistoryComponent history={history} />
-        <button onClick={handleReset}>Reset Rolls</button>
+        <button className="red-button" onClick={handleReset}>
+          Reset Rolls
+        </button>
       </div>
+      <div style={{ flex: 2, marginLeft: "1px" }}>TODO ADD GRAPH</div>
     </div>
   );
 };

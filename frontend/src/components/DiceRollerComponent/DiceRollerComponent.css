@@ -1,0 +1,51 @@
+.green-button {
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  font-size: 12px;
+  border: 1px solid #28a745;
+  background-color: #28a745;
+  color: white;
+}
+
+.green-button:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+.green-button:active {
+  background-color: #1e7e34;
+  border-color: #1e7e34;
+}
+
+.green-button:focus {
+  outline: none;
+}
+
+.red-button {
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  font-size: 12px;
+  border: 1px solid #dc3545;
+  background-color: #dc3545;
+  color: white;
+}
+
+.red-button:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}
+
+.red-button:active {
+  background-color: #bd2130;
+  border-color: #bd2130;
+}
+
+.red-button:focus {
+  outline: none;
+}

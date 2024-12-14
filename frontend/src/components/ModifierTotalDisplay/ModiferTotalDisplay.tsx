@@ -19,7 +19,7 @@ const displayModifierTotal = (
       <p>
         
         {displayMin === displayMax ? (
-          <span className={displayMax > 0 ? 'positive' : displayMax < 0 ? 'negative' : 'zero'}>No Modifiers</span>
+          <span className={displayMax > 0 ? 'positive' : displayMax < 0 ? 'negative' : 'zero'}>{displayMax}</span>
         ) : (
           <>
             <span className={displayMin > 0 ? 'positive' : displayMin < 0 ? 'negative' : 'zero'}>{displayMin}</span>

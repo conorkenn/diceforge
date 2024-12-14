@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import DiceRoller from './components/DiceRollerComponent';
+import DiceRoller from './components/DiceRollerComponent/DiceRollerComponent';
 import NavbarComponent from './components/NavbarComponent';
 
 function App() {

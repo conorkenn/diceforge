@@ -22,15 +22,31 @@ const RollHistoryComponent: React.FC<RollHistoryProps> = ({ history }) => {
     calculatePercentages(history);
   return (
     <div>
-      <h3>Rolls: {history.length}</h3>
-      <h4>
-        Succeded: {successes}{" "}
-        {isNaN(successPercentage) ? null : successPercentage.toFixed(2)}%
-      </h4>
-      <h4>
-        Failed: {failures} {" "}
-        {isNaN(failurePercentage) ? null : failurePercentage.toFixed(2)}%
-      </h4>
+      <h3 style={{ textAlign: "center" }}>Rolls</h3>
+      <p style={{ textAlign: "center" }}>{history.length}</p>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "25px",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <h4>Succeeded</h4>
+          <p>{successes}</p>
+          {isNaN(successPercentage) ? null : (
+            <p>{successPercentage.toFixed(2)}%</p>
+          )}
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <h4>Failed</h4>
+          <p>{failures}</p>
+          {isNaN(failurePercentage) ? null : (
+            <p>{failurePercentage.toFixed(2)}%</p>
+          )}
+        </div>
+      </div>
       {history.length > 0 ? (
         <ul>
           {history.map((roll) => (
