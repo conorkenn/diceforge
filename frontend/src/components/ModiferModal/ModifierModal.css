@@ -1,0 +1,39 @@
+.modifier-selection {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns for the buttons */
+    gap: 10px; /* Spacing between buttons */
+    max-width: 400px;
+  }
+  
+  .modifier-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modifier-button.selected {
+    border: 3px solid #333;
+  }
+  
+  .modifier-button.positive {
+    background-color: #28a745; /* Green for positive modifiers */
+    color: white;
+  }
+  
+  .modifier-button.negative {
+    background-color: #dc3545; /* Red for negative modifiers */
+    color: white
+  }
+  
+  .modifier-button:hover {
+    opacity: 0.8;
+  }
+
+  

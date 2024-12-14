@@ -5,8 +5,8 @@ import { RollHistory } from "../types";
 import NumRollsSelector from "./NumRollsSelector/NumRollsSelector";
 import RollTypeSelector from "./RollTypeSelector/RollTypeSelector";
 import DifficultySelector from "./DifficultySelector";
-import ModifierModal from "./ModifierModal";
-import { calculateModifierTotal, calculateChance } from "../utils/diceUtils";
+import ModifierModal from "./ModiferModal/ModifierModal";
+import { calculateChance } from "../utils/diceUtils";
 import ModifierTotalDisplay from "./ModifierTotalDisplay/ModiferTotalDisplay";
 
 const DiceRoller: React.FC = () => {
